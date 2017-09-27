@@ -1,0 +1,38 @@
+
+div.left_panel {
+	float: left; 
+	height: 200px; 
+	width: 10%;
+}
+
+div.center_panel {
+	float: left; 
+	height: 200px; 
+	width: 75%;
+	border: 2px solid black;
+	border-radius: 10px;
+	padding-left: 5px;
+}
+
+div.right_panel {
+	float: right; 
+	height: 200px; 
+	width: 10%;
+}
+
+div.mechanics_upgrades {
+	width: 95%;
+	height: 100px;
+	border: 2px solid black;
+	border-radius: 10px;
+	display: none;
+	clear: both;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+
+div.stats_upgrades_and_listing {
+	width: 100%;
+	height: 200px;
+	visibility: hidden;
+}
