@@ -7,18 +7,18 @@ window.onload = function() {
 	// Check for localStorage
 	if (typeof(Storage) !== "undefined") {
 		if(localStorage.blood) {
+			var vamp_load_vals = ['blood', 'energy', 'energy_max', 'experience', 'night', 'money'];
 			// Making the quick and dirty assumption that if there is any saved data, all data was saved.
 			// I recognize the danger in this.
-			vamp_object.blood = parseInt(localStorage.blood, 10);
-			vamp_object.energy = parseInt(localStorage.energy, 10);
-			vamp_object.experience = parseInt(localStorage.experience, 10);
-			vamp_object.night = parseInt(localStorage.night, 10);
-			vamp_object.money = parseInt(localStorage.money, 10);
+			vamp_load_vals.forEach(
+				function (val) {
+					vamp_object[val] = parseInt(localStorage.getItem(val), 10);
+					document.getElementById(val).innerHTML = vamp_object[val];
+				}
+			);
+			
 			vamp_object.money_flag = parseInt(localStorage.money_flag, 10);
-			document.getElementById("night").innerHTML = vamp_object.night;
-			document.getElementById("blood").innerHTML = vamp_object.blood;
-			document.getElementById("energy").innerHTML = vamp_object.energy;
-			document.getElementById("money").innerHTML = vamp_object.money;
+			
 			if (vamp_object.money_flag) {
 				document.getElementById("money_outer").style.display = 'inline';
 				document.getElementById('mechanics_upgrades').style.display = 'block';
@@ -47,11 +47,12 @@ var vamp_object = {
 	// Bookkeeping variables
 	blood : 1,
 	energy : 1,
+	energy_max : 1,
 	experience : 0,
 	money : 0,
 	night : 1,
-	buffer : "You are a blood-sucking creature of the night.<br>" +
-		"<br>You require the blood of the living to animate your soulless corpse every sunset." + 
+	buffer : "You are a blood-sucking creature of the night. <br> " +
+		"<br>You require the blood of the living to animate your soulless corpse every sunset. " + 
 		"<br>Perhaps as you grow and learn about the night, you will become able to do more than simply feed and sleep. " + 
 		"<br>Perhaps. Or perhaps not. ",
 	
@@ -65,6 +66,7 @@ var vamp_object = {
 		this.blood += 1;
 		this.energy -= 1;
 		this.experience += 1;
+		
 		// Update HTML values
 		document.getElementById("blood").innerHTML = this.blood;
 		document.getElementById("energy").innerHTML = this.energy;
@@ -107,7 +109,7 @@ var vamp_object = {
 		// Update object values
 		this.night += 1;
 		this.blood -= 1;
-		this.energy += Math.abs(this.energy) + 1; // Reset energy. I thought it was a clever solution.
+		this.energy = this.energy_max; // Reset energy.
 		// Update HTML values
 		document.getElementById("night").innerHTML = this.night;
 		document.getElementById("blood").innerHTML = this.blood;
@@ -126,7 +128,7 @@ var vamp_object = {
 	},
 	
 	loot_unlock : function() {
-		if (this.experience < 10) { // How u do dis?
+		if (this.experience < 10) {
 			this.message('You have not learned quite enough, yet');
 			return;
 		}
@@ -135,7 +137,7 @@ var vamp_object = {
 		document.getElementById("money_outer").style.display = 'inline';
 		this.experience-= 10;
 		document.getElementById("experience").innerHTML = this.experience;
-		this.message('Memories of life trickle in with the blood, and you remember...money');
+		this.message('Memories of life trickle in with the blood, and you remember...<i>money</i>. ');
 	},
 	
 	// Update buffer with new text
@@ -155,6 +157,7 @@ var vamp_object = {
 	save : function() {
 		localStorage.blood = vamp_object.blood;
 		localStorage.energy = vamp_object.energy;
+		localStorage.energy_max = vamp_object.energy_max;
 		localStorage.experience = vamp_object.experience;
 		localStorage.night = vamp_object.night;
 		localStorage.money = vamp_object.money;
@@ -166,6 +169,7 @@ var vamp_object = {
 	delete_save : function() {
 		localStorage.removeItem('blood');
 		localStorage.removeItem('energy');
+		localStorage.removeItem('energy_max');
 		localStorage.removeItem('experience');
 		localStorage.removeItem('night');
 		localStorage.removeItem('money');
@@ -180,10 +184,10 @@ var vamp_object = {
 		2 : 'Somewhere, a car alarm blares.',
 		3 : 'You hear a woman scream in the distance.',
 		4 : 'You pass by a man crying at a bus stop.',
-		5 : 'You hear a woman scream in the distance.',
+		5 : 'You aren\'t sure if that\'s fog or evaporated sewage, and you don\'t want to know.',
 		6 : 'You could swear you heard a music box, but when you stop to listen, there is nothing.',
 		7 : 'A sinister fog rolls over the city.',
-		8 : 'A sinister fog rolls over the city.',
+		8 : 'It seems like there are more rats than usual, but how could you tell?',
 		9 : 'You feel as if you\'re being watched.',
 		10 : 'A bat flies overhead.',
 		11 : 'A wolf howls somewhere, sending a shiver down your spine'
