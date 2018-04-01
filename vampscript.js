@@ -1,3 +1,6 @@
+var vamp_load_vals = ['blood', 'energy', 'energy_max', 'experience', 'night', 'money'];
+// special vals: money_flag, buffer
+
 window.onload = function() {
 	// Listeners
 	document.getElementById("hunt").addEventListener('click', function() {vamp_object.hunt()}, false);
@@ -7,7 +10,6 @@ window.onload = function() {
 	// Check for localStorage
 	if (typeof(Storage) !== "undefined") {
 		if(localStorage.blood) {
-			var vamp_load_vals = ['blood', 'energy', 'energy_max', 'experience', 'night', 'money'];
 			// Making the quick and dirty assumption that if there is any saved data, all data was saved.
 			// I recognize the danger in this.
 			vamp_load_vals.forEach(
@@ -155,26 +157,29 @@ var vamp_object = {
 	
 	// Save to localStorage
 	save : function() {
-		localStorage.blood = vamp_object.blood;
-		localStorage.energy = vamp_object.energy;
-		localStorage.energy_max = vamp_object.energy_max;
-		localStorage.experience = vamp_object.experience;
-		localStorage.night = vamp_object.night;
-		localStorage.money = vamp_object.money;
+		vamp_load_vals.forEach(
+			function (val) {
+				localStorage[val] = vamp_object[val];
+			}
+		);
+		
+		// Also save special stuff:
 		localStorage.money_flag = vamp_object.money_flag;
 		localStorage.buffer = vamp_object.buffer;
 	},
 	
 	// Wipe save from localStorage
 	delete_save : function() {
-		localStorage.removeItem('blood');
-		localStorage.removeItem('energy');
-		localStorage.removeItem('energy_max');
-		localStorage.removeItem('experience');
-		localStorage.removeItem('night');
-		localStorage.removeItem('money');
+		vamp_load_vals.forEach(
+			function (val) {
+				localStorage.removeItem(val);
+			}
+		);
+		
+		// Also delete special stuff:
 		localStorage.removeItem('money_flag');
 		localStorage.removeItem('buffer');
+		
 		this.message('Your local save has been wiped clean.');
 	},
 	
