@@ -1,5 +1,5 @@
-var vamp_load_vals = ['blood', 'energy', 'energy_max', 'experience', 'night', 'money'];
-// special vals: money_flag, buffer
+var vamp_load_vals = ['blood', 'energy', 'energy_max', 'experience', 'night', 'money', 'energy_upgrade_cost'];
+// special vals: money_flag, energy_upgrade_flag, buffer
 
 window.onload = function() {
 	// Listeners
@@ -20,6 +20,7 @@ window.onload = function() {
 			);
 			
 			vamp_object.money_flag = parseInt(localStorage.money_flag, 10);
+			vamp_object.energy_upgrade_flag = localStorage.energy_upgrade_flag;
 			
 			if (vamp_object.money_flag) {
 				document.getElementById("money_outer").style.display = 'inline';
@@ -53,6 +54,7 @@ var vamp_object = {
 	experience : 0,
 	money : 0,
 	night : 1,
+	energy_upgrade_cost : 5,
 	buffer : "You are a blood-sucking creature of the night. <br> " +
 		"<br>You require the blood of the living to animate your soulless corpse every sunset. " + 
 		"<br>Perhaps as you grow and learn about the night, you will become able to do more than simply feed and sleep. " + 
@@ -60,6 +62,7 @@ var vamp_object = {
 	
 	// Flags
 	money_flag : 0,
+	energy_upgrade_flag : false,
 	
 	// Actions
 	// Spend one energy hunting for food
@@ -69,15 +72,13 @@ var vamp_object = {
 		this.energy -= 1;
 		this.experience += 1;
 		
-		// Update HTML values
-		document.getElementById("blood").innerHTML = this.blood;
-		document.getElementById("energy").innerHTML = this.energy;
-		document.getElementById("experience").innerHTML = this.experience;
-		
 		// Feeding message
 		var rand = Math.floor(Math.random() * 9),
 			rand2 = Math.floor(Math.random() * (this.money_flag + 1));
 		this.message(this.hunt_encounters[rand2][rand]);
+		if (rand2 == 1 && rand == 5) {
+			this.energy += 1;
+		}
 		
 		// Money, if applicable
 		rand = Math.floor(Math.random() * 9);
@@ -96,8 +97,22 @@ var vamp_object = {
 			document.getElementById('mechanics_upgrades').style.display = 'block';
 		}
 		
+		if (!this.energy_upgrade_flag && this.blood >= this.energy_upgrade_cost) {
+			this.energy_upgrade_flag = true;
+			var energy_upgrade_butt = document.createElement('button');
+			energy_upgrade_butt.id = 'energy_upgrade_butt';
+			energy_upgrade_butt.innerHTML = 'Infuse Muscles With Blood: ' + this.energy_upgrade_cost + ' blood';
+			document.getElementById('mechanics_upgrades').appendChild(energy_upgrade_butt);
+			energy_upgrade_butt.addEventListener('click', function() {vamp_object.energy_upgrade()}, false);
+		}		
+		
 		rand = Math.floor(Math.random() * 101);
 		if (this.flavor_events[rand]) this.message(this.flavor_events[rand]);
+		
+		// Update HTML values
+		document.getElementById("blood").innerHTML = this.blood;
+		document.getElementById("energy").innerHTML = this.energy;
+		document.getElementById("experience").innerHTML = this.experience;
 		
 		// Energy check
 		if (this.energy <= 0) {
@@ -112,19 +127,22 @@ var vamp_object = {
 		this.night += 1;
 		this.blood -= 1;
 		this.energy = this.energy_max; // Reset energy.
-		// Update HTML values
-		document.getElementById("night").innerHTML = this.night;
-		document.getElementById("blood").innerHTML = this.blood;
-		document.getElementById("energy").innerHTML = this.energy;
 		
-		this.message("You slink back to your nest before dawn.");
+		// Update HTML values
+		document.getElementById('night').innerHTML = this.night;
+		document.getElementById('blood').innerHTML = this.blood;
+		document.getElementById('energy').innerHTML = this.energy;
+		
+		this.message('You slink back to your nest before dawn.');
 		
 		// Death check
 		if (this.blood <= 0) { 
-			this.message("<br>You have failed to acquire enough blood to survive the day.<br>" + 
-				"Your corpse does not rise at dusk.<br><br>" + 
-				"The End.<br>");
-			document.getElementById("hunt").style.display = 'none';
+			this.message('<br>You have failed to acquire enough blood to survive the day.<br>' + 
+				'Your corpse does not rise at dusk.<br><br>' + 
+				'The End.<br>');
+			document.getElementById('hunt').style.display = 'none';
+			document.getElementById('mechanics_upgrades').style.display = 'none';
+			document.getElementById('stats_upgrades_and_listing').style.display = 'none';
 			return;
 		}
 	},
@@ -136,10 +154,26 @@ var vamp_object = {
 		}
 		document.getElementById('loot_unlock_butt').style.display = 'none';
 		this.money_flag = 1;
-		document.getElementById("money_outer").style.display = 'inline';
+		document.getElementById('money_outer').style.display = 'inline';
 		this.experience-= 10;
-		document.getElementById("experience").innerHTML = this.experience;
+		document.getElementById('experience').innerHTML = this.experience;
 		this.message('Memories of life trickle in with the blood, and you remember...<i>money</i>. ');
+	},
+	
+	energy_upgrade : function() {
+		if (this.blood < this.energy_upgrade_cost) {
+			this.message('You do not have enough blood.');
+			return;
+		}
+		this.blood-= this.energy_upgrade_cost;
+		this.energy_max += 1;
+		this.energy += 1;
+		this.energy_upgrade_cost = Math.floor(1.1 * this.energy_upgrade_cost) + 10; // Raise cost incrementally
+		document.getElementById('blood').innerHTML = this.blood;
+		document.getElementById('energy').innerHTML = this.energy;
+		document.getElementById('energy_max').innerHTML = this.energy_max;
+		document.getElementById('energy_upgrade_butt').innerHTML = 'Infuse Muscles With Blood: ' + this.energy_upgrade_cost + ' blood';
+		this.message('You suffuse your muscles with the power of the Blood, and they swell with vigor. ');
 	},
 	
 	// Update buffer with new text
@@ -165,6 +199,7 @@ var vamp_object = {
 		
 		// Also save special stuff:
 		localStorage.money_flag = vamp_object.money_flag;
+		localStorage.energy_upgrade_flag = vamp_object.energy_upgrade_flag;
 		localStorage.buffer = vamp_object.buffer;
 	},
 	
@@ -178,6 +213,7 @@ var vamp_object = {
 		
 		// Also delete special stuff:
 		localStorage.removeItem('money_flag');
+		localStorage.removeItem('energy_upgrade_flag');
 		localStorage.removeItem('buffer');
 		
 		this.message('Your local save has been wiped clean.');
