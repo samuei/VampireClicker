@@ -15,12 +15,13 @@ window.onload = function() {
 			vamp_load_vals.forEach(
 				function (val) {
 					vamp_object[val] = parseInt(localStorage.getItem(val), 10);
-					document.getElementById(val).innerHTML = vamp_object[val];
+					var el = document.getElementById(val);
+					if (el) el.innerHTML = vamp_object[val];
 				}
 			);
 			
+			// Handle money upgrades
 			vamp_object.money_flag = parseInt(localStorage.money_flag, 10);
-			vamp_object.energy_upgrade_flag = localStorage.energy_upgrade_flag;
 			
 			if (vamp_object.money_flag) {
 				document.getElementById("money_outer").style.display = 'inline';
@@ -34,6 +35,18 @@ window.onload = function() {
 				loot_unlock_butt.addEventListener('click', function() {vamp_object.loot_unlock()}, false);
 				document.getElementById('mechanics_upgrades').style.display = 'block';
 			}
+			
+			// Handle energy upgrades
+			vamp_object.energy_upgrade_flag = localStorage.energy_upgrade_flag;
+			
+			if (vamp_object.energy_upgrade_flag) {
+				var energy_upgrade_butt = document.createElement('button');
+				energy_upgrade_butt.id = 'energy_upgrade_butt';
+				energy_upgrade_butt.innerHTML = 'Infuse Muscles With Blood: ' + vamp_object.energy_upgrade_cost + ' blood';
+				document.getElementById('mechanics_upgrades').appendChild(energy_upgrade_butt);
+				energy_upgrade_butt.addEventListener('click', function() {vamp_object.energy_upgrade()}, false);
+			}
+			
 			vamp_object.message(localStorage.buffer);
 			vamp_object.message('Loaded from localStorage'); // Not the other way around, because then you'd never see this
 		}
@@ -78,6 +91,7 @@ var vamp_object = {
 		this.message(this.hunt_encounters[rand2][rand]);
 		if (rand2 == 1 && rand == 5) {
 			this.energy += 1;
+			this.message('You feel energized!');
 		}
 		
 		// Money, if applicable
@@ -104,7 +118,7 @@ var vamp_object = {
 			energy_upgrade_butt.innerHTML = 'Infuse Muscles With Blood: ' + this.energy_upgrade_cost + ' blood';
 			document.getElementById('mechanics_upgrades').appendChild(energy_upgrade_butt);
 			energy_upgrade_butt.addEventListener('click', function() {vamp_object.energy_upgrade()}, false);
-		}		
+		}
 		
 		rand = Math.floor(Math.random() * 101);
 		if (this.flavor_events[rand]) this.message(this.flavor_events[rand]);
@@ -133,7 +147,7 @@ var vamp_object = {
 		document.getElementById('blood').innerHTML = this.blood;
 		document.getElementById('energy').innerHTML = this.energy;
 		
-		this.message('You slink back to your nest before dawn.');
+		this.message('<span class="end_night_text">You slink back to your nest before dawn.</span> ');
 		
 		// Death check
 		if (this.blood <= 0) { 

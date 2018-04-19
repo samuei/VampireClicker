@@ -36,3 +36,19 @@ div.stats_upgrades_and_listing {
 	height: 200px;
 	visibility: hidden;
 }
+
+@keyframes sunset { /* Sweet fade animation that makes it look like I know what I'm doing */
+    from {
+		background-color: black;
+		color: white;
+	}
+    to {
+		background-color: white;
+		color: black;
+	}
+}
+
+span.end_night_text:last-child { /* Only gets the LAST end_night_text element! */
+	animation-name: sunset;
+    animation-duration: 2s;
+}
