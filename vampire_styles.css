@@ -40,8 +40,6 @@ div.stats_upgrades_and_listing {
 a.pi {
 	position: absolute;
 	bottom: 0;
-	width: 99%;
-	text-align: right;
 	color: gray;
 	font-size: smaller;
 	clear: both;
