@@ -157,10 +157,12 @@ var vamp_object = {
 			document.getElementById('hunt').style.display = 'none';
 			document.getElementById('mechanics_upgrades').style.display = 'none';
 			document.getElementById('stats_upgrades_and_listing').style.display = 'none';
+			document.getElementById("save").style.display = 'none'; // Oh, no you don't.
 			return;
 		}
 	},
 	
+	// Unlock money
 	loot_unlock : function() {
 		if (this.experience < 10) {
 			this.message('You have not learned quite enough, yet');
@@ -174,6 +176,7 @@ var vamp_object = {
 		this.message('Memories of life trickle in with the blood, and you remember...<i>money</i>. ');
 	},
 	
+	// Energy upgrade: It's like red bull, but made of blood.
 	energy_upgrade : function() {
 		if (this.blood < this.energy_upgrade_cost) {
 			this.message('You do not have enough blood.');

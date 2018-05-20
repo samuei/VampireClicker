@@ -52,3 +52,7 @@ span.end_night_text:last-child { /* Only gets the LAST end_night_text element! *
 	animation-name: sunset;
     animation-duration: 2s;
 }
+
+button {
+	border-radius: 7px;
+}
