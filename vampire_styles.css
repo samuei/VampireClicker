@@ -37,6 +37,16 @@ div.stats_upgrades_and_listing {
 	visibility: hidden;
 }
 
+a.pi {
+	position: absolute;
+	bottom: 0;
+	width: 99%;
+	text-align: right;
+	color: gray;
+	font-size: smaller;
+	clear: both;
+}
+
 @keyframes sunset { /* Sweet fade animation that makes it look like I know what I'm doing */
     from {
 		background-color: black;

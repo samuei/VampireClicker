@@ -1,4 +1,4 @@
-# VampireClicker
+# [VampireClicker](https://samuei.github.io/VampireClicker/)
 
 You are a blood-sucking creature of the night. 
 
