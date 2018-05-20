@@ -91,7 +91,7 @@ var vamp_object = {
 		this.message(this.hunt_encounters[rand2][rand]);
 		if (rand2 == 1 && rand == 5) {
 			this.energy += 1;
-			this.message('You feel energized!');
+			this.message('<span class="shaky_text">You feel energized!</span> ');
 		}
 		
 		// Money, if applicable
