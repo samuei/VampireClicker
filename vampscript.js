@@ -1,4 +1,12 @@
-var vamp_load_vals = ['blood', 'energy', 'energy_max', 'experience', 'night', 'money', 'energy_upgrade_cost'];
+var vamp_load_vals = [
+	'blood', 
+	'energy', 
+	'energy_max', 
+	'experience', 
+	'night', 
+	'money', 
+	'energy_upgrade_cost'
+];
 // special vals: money_flag, energy_upgrade_flag, buffer
 
 window.onload = function() {
