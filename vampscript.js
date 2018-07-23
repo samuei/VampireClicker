@@ -11,9 +11,9 @@ var vamp_load_vals = [
 
 window.onload = function() {
 	// Listeners
-	document.getElementById("hunt").addEventListener('click', function() {vamp_object.hunt()}, false);
-	document.getElementById("save").addEventListener('click', function() {vamp_object.save()}, false);
-	document.getElementById("delete_save").addEventListener('click', function() {vamp_object.delete_save()}, false);
+	document.getElementById("hunt").addEventListener('click', function() {hunt()}, false);
+	document.getElementById("save").addEventListener('click', function() {save()}, false);
+	document.getElementById("delete_save").addEventListener('click', function() {delete_save()}, false);
 	
 	// Check for localStorage
 	if (typeof(Storage) !== "undefined") {
@@ -40,7 +40,7 @@ window.onload = function() {
 				loot_unlock_butt.id = 'loot_unlock_butt';
 				loot_unlock_butt.innerHTML = 'Loot victims: 10 xp';
 				document.getElementById('mechanics_upgrades').appendChild(loot_unlock_butt);
-				loot_unlock_butt.addEventListener('click', function() {vamp_object.loot_unlock()}, false);
+				loot_unlock_butt.addEventListener('click', function() {loot_unlock()}, false);
 				document.getElementById('mechanics_upgrades').style.display = 'block';
 			}
 			
@@ -52,11 +52,11 @@ window.onload = function() {
 				energy_upgrade_butt.id = 'energy_upgrade_butt';
 				energy_upgrade_butt.innerHTML = 'Infuse Muscles With Blood: ' + vamp_object.energy_upgrade_cost + ' blood';
 				document.getElementById('mechanics_upgrades').appendChild(energy_upgrade_butt);
-				energy_upgrade_butt.addEventListener('click', function() {vamp_object.energy_upgrade()}, false);
+				energy_upgrade_butt.addEventListener('click', function() {energy_upgrade()}, false);
 			}
 			
-			vamp_object.message(localStorage.buffer);
-			vamp_object.message('Loaded from localStorage'); // Not the other way around, because then you'd never see this
+			message(localStorage.buffer);
+			message('Loaded from localStorage'); // Not the other way around, because then you'd never see this
 		}
 	}
 	else {
@@ -68,7 +68,6 @@ window.onload = function() {
 
 // Primary game object
 var vamp_object = {
-	// Bookkeeping variables
 	blood : 1,
 	energy : 1,
 	energy_max : 1,
@@ -84,166 +83,7 @@ var vamp_object = {
 	// Flags
 	money_flag : 0,
 	energy_upgrade_flag : false,
-	
-	// Actions
-	// Spend one energy hunting for food
-	hunt : function() {
-		// Update object values
-		this.blood += 1;
-		this.energy -= 1;
-		this.experience += 1;
-		
-		// Feeding message
-		var rand = Math.floor(Math.random() * 9),
-			rand2 = Math.floor(Math.random() * (this.money_flag + 1));
-		this.message(this.hunt_encounters[rand2][rand]);
-		if (rand2 == 1 && rand == 5) {
-			this.energy += 1;
-			this.message('<span class="shaky_text">You feel energized!</span> ');
-		}
-		
-		// Money, if applicable
-		rand = Math.floor(Math.random() * 9);
-		var money_gained = (rand * this.money_flag)
-		this.money += money_gained;
-		document.getElementById("money").innerHTML = this.money;
-		if (money_gained) this.message('You abscond with $'+money_gained);
-		
-		// Speaking of the applicability of money...
-		if (this.money_flag == 0 && this.experience == 10) {
-			var loot_unlock_butt = document.createElement('button');
-			loot_unlock_butt.id = 'loot_unlock_butt';
-			loot_unlock_butt.innerHTML = 'Loot victims: 10 xp';
-			document.getElementById('mechanics_upgrades').appendChild(loot_unlock_butt);
-			loot_unlock_butt.addEventListener('click', function() {vamp_object.loot_unlock()}, false);
-			document.getElementById('mechanics_upgrades').style.display = 'block';
-		}
-		
-		if (!this.energy_upgrade_flag && this.blood >= this.energy_upgrade_cost) {
-			this.energy_upgrade_flag = true;
-			var energy_upgrade_butt = document.createElement('button');
-			energy_upgrade_butt.id = 'energy_upgrade_butt';
-			energy_upgrade_butt.innerHTML = 'Infuse Muscles With Blood: ' + this.energy_upgrade_cost + ' blood';
-			document.getElementById('mechanics_upgrades').appendChild(energy_upgrade_butt);
-			energy_upgrade_butt.addEventListener('click', function() {vamp_object.energy_upgrade()}, false);
-		}
-		
-		rand = Math.floor(Math.random() * 101);
-		if (this.flavor_events[rand]) this.message(this.flavor_events[rand]);
-		
-		// Update HTML values
-		document.getElementById("blood").innerHTML = this.blood;
-		document.getElementById("energy").innerHTML = this.energy;
-		document.getElementById("experience").innerHTML = this.experience;
-		
-		// Energy check
-		if (this.energy <= 0) {
-			this.end_night();
-		}
-		
-	},
-	
-	// End the night
-	end_night : function() {
-		// Update object values
-		this.night += 1;
-		this.blood -= 1;
-		this.energy = this.energy_max; // Reset energy.
-		
-		// Update HTML values
-		document.getElementById('night').innerHTML = this.night;
-		document.getElementById('blood').innerHTML = this.blood;
-		document.getElementById('energy').innerHTML = this.energy;
-		
-		this.message('<span class="end_night_text">You slink back to your nest before dawn.</span> ');
-		
-		// Death check
-		if (this.blood <= 0) { 
-			this.message('<br>You have failed to acquire enough blood to survive the day.<br>' + 
-				'Your corpse does not rise at dusk.<br><br>' + 
-				'The End.<br>');
-			document.getElementById('hunt').style.display = 'none';
-			document.getElementById('mechanics_upgrades').style.display = 'none';
-			document.getElementById('stats_upgrades_and_listing').style.display = 'none';
-			document.getElementById("save").style.display = 'none'; // Oh, no you don't.
-			return;
-		}
-	},
-	
-	// Unlock money
-	loot_unlock : function() {
-		if (this.experience < 10) {
-			this.message('You have not learned quite enough, yet');
-			return;
-		}
-		document.getElementById('loot_unlock_butt').style.display = 'none';
-		this.money_flag = 1;
-		document.getElementById('money_outer').style.display = 'inline';
-		this.experience-= 10;
-		document.getElementById('experience').innerHTML = this.experience;
-		this.message('Memories of life trickle in with the blood, and you remember...<i>money</i>. ');
-	},
-	
-	// Energy upgrade: It's like red bull, but made of blood.
-	energy_upgrade : function() {
-		if (this.blood < this.energy_upgrade_cost) {
-			this.message('You do not have enough blood.');
-			return;
-		}
-		this.blood-= this.energy_upgrade_cost;
-		this.energy_max += 1;
-		this.energy += 1;
-		this.energy_upgrade_cost = Math.floor(1.1 * this.energy_upgrade_cost) + 10; // Raise cost incrementally
-		document.getElementById('blood').innerHTML = this.blood;
-		document.getElementById('energy').innerHTML = this.energy;
-		document.getElementById('energy_max').innerHTML = this.energy_max;
-		document.getElementById('energy_upgrade_butt').innerHTML = 'Infuse Muscles With Blood: ' + this.energy_upgrade_cost + ' blood';
-		this.message('You suffuse your muscles with the power of the Blood, and they swell with vigor. ');
-	},
-	
-	// Update buffer with new text
-	message : function(in_text) {
-		// Join the buffer with the new text
-		var split_buffer = this.buffer.split('<br>').concat(in_text.split('<br>'));
-		// Only want the last 10 lines
-		if (split_buffer.length > 10) {
-			split_buffer = split_buffer.slice(-10);
-		}
-		// Rejoin and update buffer
-		this.buffer = split_buffer.join('<br>');
-		document.getElementById("center_panel").innerHTML = this.buffer;
-	},
-	
-	// Save to localStorage
-	save : function() {
-		vamp_load_vals.forEach(
-			function (val) {
-				localStorage[val] = vamp_object[val];
-			}
-		);
-		
-		// Also save special stuff:
-		localStorage.money_flag = vamp_object.money_flag;
-		localStorage.energy_upgrade_flag = vamp_object.energy_upgrade_flag;
-		localStorage.buffer = vamp_object.buffer;
-	},
-	
-	// Wipe save from localStorage
-	delete_save : function() {
-		vamp_load_vals.forEach(
-			function (val) {
-				localStorage.removeItem(val);
-			}
-		);
-		
-		// Also delete special stuff:
-		localStorage.removeItem('money_flag');
-		localStorage.removeItem('energy_upgrade_flag');
-		localStorage.removeItem('buffer');
-		
-		this.message('Your local save has been wiped clean.');
-	},
-	
+
 	// Text storage
 	flavor_events : {
 		1 : 'A truck labeled "Demeter Shipping" nearly runs you over.',
@@ -284,3 +124,166 @@ var vamp_object = {
 		}
 	}
 };
+
+
+/*
+ * Actions
+ */
+
+// Spend one energy hunting for food
+function hunt() {
+	// Update object values
+	vamp_object.blood += 1;
+	vamp_object.energy -= 1;
+	vamp_object.experience += 1;
+	
+	// Feeding message
+	var rand = Math.floor(Math.random() * 9),
+		rand2 = Math.floor(Math.random() * (vamp_object.money_flag + 1));
+	message(vamp_object.hunt_encounters[rand2][rand]);
+	if (rand2 == 1 && rand == 5) {
+		vamp_object.energy += 1;
+		message('<span class="shaky_text">You feel energized!</span> ');
+	}
+	
+	// Money, if applicable
+	rand = Math.floor(Math.random() * 9);
+	var money_gained = (rand * vamp_object.money_flag)
+	vamp_object.money += money_gained;
+	document.getElementById("money").innerHTML = vamp_object.money;
+	if (money_gained) message('You abscond with $'+money_gained);
+	
+	// Speaking of the applicability of money...
+	if (vamp_object.money_flag == 0 && vamp_object.experience == 10) {
+		var loot_unlock_butt = document.createElement('button');
+		loot_unlock_butt.id = 'loot_unlock_butt';
+		loot_unlock_butt.innerHTML = 'Loot victims: 10 xp';
+		document.getElementById('mechanics_upgrades').appendChild(loot_unlock_butt);
+		loot_unlock_butt.addEventListener('click', function() {loot_unlock()}, false);
+		document.getElementById('mechanics_upgrades').style.display = 'block';
+	}
+	
+	if (!vamp_object.energy_upgrade_flag && vamp_object.blood >= vamp_object.energy_upgrade_cost) {
+		vamp_object.energy_upgrade_flag = true;
+		var energy_upgrade_butt = document.createElement('button');
+		energy_upgrade_butt.id = 'energy_upgrade_butt';
+		energy_upgrade_butt.innerHTML = 'Infuse Muscles With Blood: ' + vamp_object.energy_upgrade_cost + ' blood';
+		document.getElementById('mechanics_upgrades').appendChild(energy_upgrade_butt);
+		energy_upgrade_butt.addEventListener('click', function() {energy_upgrade()}, false);
+	}
+	
+	rand = Math.floor(Math.random() * 101);
+	if (vamp_object.flavor_events[rand]) message(vamp_object.flavor_events[rand]);
+	
+	// Update HTML values
+	document.getElementById("blood").innerHTML = vamp_object.blood;
+	document.getElementById("energy").innerHTML = vamp_object.energy;
+	document.getElementById("experience").innerHTML = vamp_object.experience;
+	
+	// Energy check
+	if (vamp_object.energy <= 0) {
+		end_night();
+	}	
+};
+
+// End the night
+function end_night() {
+	// Update object values
+	vamp_object.night += 1;
+	vamp_object.blood -= 1;
+	vamp_object.energy = vamp_object.energy_max; // Reset energy.
+	
+	// Update HTML values
+	document.getElementById('night').innerHTML = vamp_object.night;
+	document.getElementById('blood').innerHTML = vamp_object.blood;
+	document.getElementById('energy').innerHTML = vamp_object.energy;
+	
+	message('<span class="end_night_text">You slink back to your nest before dawn.</span> ');
+	
+	// Death check
+	if (vamp_object.blood <= 0) { 
+		message('<br>You have failed to acquire enough blood to survive the day.<br>' + 
+			'Your corpse does not rise at dusk.<br><br>' + 
+			'The End.<br>');
+		document.getElementById('hunt').style.display = 'none';
+		document.getElementById('mechanics_upgrades').style.display = 'none';
+		document.getElementById('stats_upgrades_and_listing').style.display = 'none';
+		document.getElementById("save").style.display = 'none'; // Oh, no you don't.
+		return;
+	}
+};
+
+// Unlock money
+function loot_unlock() {
+	if (vamp_object.experience < 10) {
+		message('You have not learned quite enough, yet');
+		return;
+	}
+	document.getElementById('loot_unlock_butt').style.display = 'none';
+	vamp_object.money_flag = 1;
+	document.getElementById('money_outer').style.display = 'inline';
+	vamp_object.experience-= 10;
+	document.getElementById('experience').innerHTML = vamp_object.experience;
+	message('Memories of life trickle in with the blood, and you remember...<i>money</i>. ');
+};
+
+// Energy upgrade: It's like red bull, but made of blood.
+function energy_upgrade() {
+	if (vamp_object.blood < vamp_object.energy_upgrade_cost) {
+		message('You do not have enough blood.');
+		return;
+	}
+	vamp_object.blood-= vamp_object.energy_upgrade_cost;
+	vamp_object.energy_max += 1;
+	vamp_object.energy += 1;
+	vamp_object.energy_upgrade_cost = Math.floor(1.1 * vamp_object.energy_upgrade_cost) + 10; // Raise cost incrementally
+	document.getElementById('blood').innerHTML = vamp_object.blood;
+	document.getElementById('energy').innerHTML = vamp_object.energy;
+	document.getElementById('energy_max').innerHTML = vamp_object.energy_max;
+	document.getElementById('energy_upgrade_butt').innerHTML = 'Infuse Muscles With Blood: ' + vamp_object.energy_upgrade_cost + ' blood';
+	message('You suffuse your muscles with the power of the Blood, and they swell with vigor. ');
+};
+
+// Update buffer with new text
+function message(in_text) {
+	// Join the buffer with the new text
+	var split_buffer = vamp_object.buffer.split('<br>').concat(in_text.split('<br>'));
+	// Only want the last 10 lines
+	if (split_buffer.length > 10) {
+		split_buffer = split_buffer.slice(-10);
+	}
+	// Rejoin and update buffer
+	vamp_object.buffer = split_buffer.join('<br>');
+	document.getElementById("center_panel").innerHTML = vamp_object.buffer;
+};
+
+// Save to localStorage
+function save() {
+	vamp_load_vals.forEach(
+		function (val) {
+			localStorage[val] = vamp_object[val];
+		}
+	);
+	
+	// Also save special stuff:
+	localStorage.money_flag = vamp_object.money_flag;
+	localStorage.energy_upgrade_flag = vamp_object.energy_upgrade_flag;
+	localStorage.buffer = vamp_object.buffer;
+};
+
+// Wipe save from localStorage
+function delete_save() {
+	vamp_load_vals.forEach(
+			function (val) {
+				localStorage.removeItem(val);
+			}
+		);
+		
+		// Also delete special stuff:
+		localStorage.removeItem('money_flag');
+		localStorage.removeItem('energy_upgrade_flag');
+		localStorage.removeItem('buffer');
+		
+		message('Your local save has been wiped clean.');
+};
+
