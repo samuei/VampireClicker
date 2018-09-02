@@ -122,6 +122,63 @@ var vamp_object = {
 			7 : 'A local community theater is doing a Carmilla stage show. You give the actress in the title role a realistic pallor.',
 			8 : 'You don\'t want to sound cliche, but if the street-corner fortune teller didn\'t see this coming, it was her own fault.'
 		}
+	},
+	
+	nests : {
+		0 : {
+			name : 'Wherever you can find',
+			rent : 0,
+			rent_increment : 0,
+			description : 'Whether in a dumpster or a long culvert, you simply crawl into a safe-looking spot near the dawn.'
+		},
+		1 : {
+			name : 'Sewer',
+			rent : 0,
+			rent_increment : 0,
+			description : 'You have found a manhole cover under which the sewer is less pungent than usual. You rest there.'
+		},
+		2 : {
+			name : 'the Dried Stain Motel',
+			rent : 40,
+			rent_increment : 1,
+			description : 'The sheets are already soaked with bodily fluids. What\'s a little more?'
+		},
+		3 : {
+			name : 'the Personal Rat Apartments',
+			rent : 900,
+			rent_increment : 30,
+			description : 'Don\'t let the name fool you. You share many rats with your neighbors.'
+		},
+		4 : {
+			name : 'the Medium Roach Flats',
+			rent : 1100,
+			rent_increment : 30,
+			description : 'You are unsure if the roaches are better than the rats; There are more of them, but they are smaller.'
+		},
+		5 : {
+			name : 'the Pest-Free Townhomes',
+			rent : 1500,
+			rent_increment : 30,
+			description : 'Landlords, it seems, do not consider themselves pests.'
+		},
+		6 : {
+			name : 'a rickety tool shed',
+			rent : 1300,
+			rent_increment : 0,
+			description : 'You wrap yourself in a tarp, in case sunlight seeps in through a missing wall slat.'
+		},
+		7 : {
+			name : 'a double-wide trailer',
+			rent : 13000,
+			rent_increment : 365,
+			description : 'You worry sometimes that a neighbor\'s meth lab explosion might leave you exposed to the sun.'
+		}/*,
+		 : {
+			name : '',
+			rent : ,
+			rent_increment : ,
+			description : ''
+		}*/
 	}
 };
 
