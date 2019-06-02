@@ -127,8 +127,8 @@ var vamp_object = {
 	nests : {
 		0 : {
 			name : 'wherever you can find',
-			rent : 0,
-			rent_increment : 0,
+			rent : 0, // Free!
+			rent_increment : 0, // Rent is only charged on first purchase
 			description : 'Whether in a dumpster or a long culvert, you simply crawl into a safe-looking spot near the dawn.'
 		},
 		1 : {
@@ -139,14 +139,14 @@ var vamp_object = {
 		},
 		2 : {
 			name : 'the Dried Stain Motel',
-			rent : 40,
-			rent_increment : 1,
+			rent : 40, // 40 bucks
+			rent_increment : 1, // Per night
 			description : 'The sheets are already soaked with bodily fluids. What\'s a little more?'
 		},
 		3 : {
 			name : 'the Personal Rat Apartments',
 			rent : 900,
-			rent_increment : 30,
+			rent_increment : 30, // Per month
 			description : 'Don\'t let the name fool you. You share many rats with your neighbors.'
 		},
 		4 : {
@@ -170,7 +170,7 @@ var vamp_object = {
 		7 : {
 			name : 'a double-wide trailer',
 			rent : 13000,
-			rent_increment : 365,
+			rent_increment : 365, // Per year
 			description : 'You worry sometimes that a neighbor\'s meth lab explosion might leave you exposed to the sun.'
 		},
 		8 : {
