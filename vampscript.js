@@ -126,13 +126,13 @@ var vamp_object = {
 	
 	nests : {
 		0 : {
-			name : 'Wherever you can find',
+			name : 'wherever you can find',
 			rent : 0,
 			rent_increment : 0,
 			description : 'Whether in a dumpster or a long culvert, you simply crawl into a safe-looking spot near the dawn.'
 		},
 		1 : {
-			name : 'Sewer',
+			name : 'the Sewer',
 			rent : 0,
 			rent_increment : 0,
 			description : 'You have found a manhole cover under which the sewer is less pungent than usual. You rest there.'
@@ -172,6 +172,36 @@ var vamp_object = {
 			rent : 13000,
 			rent_increment : 365,
 			description : 'You worry sometimes that a neighbor\'s meth lab explosion might leave you exposed to the sun.'
+		},
+		8 : {
+			name : 'a pre-fab house in a passable neighborhood',
+			rent : 145000,
+			rent_increment : 0,
+			description : 'Thankfully, the HOA does not seem to recognize a new bloodsucker on its turf.'
+		},
+		9: {
+			name : 'a McMansion',
+			rent : 850000,
+			rent_increment : 0,
+			description : 'Dormers. Dormers everywhere.'
+		},
+		10 : {
+			name : 'a Stately Manor',
+			rent : 1550000,
+			rent_increment : 0,
+			description : 'It has a tasteful, understated quality, manageable ivy coverage, and plenty of basement space for bodies.'
+		},
+		11 : {
+			name : 'a Palatial Villa',
+			rent : 3750000,
+			rent_increment : 0,
+			description : 'With gates, wading pools, a stable, and servant\'s quarters, you suspect this might have once been a plantation.'
+		},
+		12 : {
+			name : 'an Actual Castle',
+			rent : 10000000,
+			rent_increment : 0,
+			description : 'You\'ve made it!'
 		}/*,
 		 : {
 			name : '',
