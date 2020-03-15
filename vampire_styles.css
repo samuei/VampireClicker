@@ -1,8 +1,14 @@
 
+html {
+	width: 100%;
+}
+
 #hunt_display_options {
 	display: flex;
 	flex-wrap: nowrap;
 	height: 200px;
+	margin-bottom: 5px;
+	width: 100%;
 }
 
 .left_panel { 
@@ -22,14 +28,13 @@
 }
 
 .mechanics_upgrades {
-	width: 95%;
+	box-sizing: border-box;
+	width: 100%;
 	height: 100px;
 	border: 2px solid black;
 	border-radius: 10px;
 	display: none;
-	clear: both;
-	padding-left: 5px;
-	padding-top: 5px;
+	padding: 5px;
 }
 
 .stats_upgrades_and_listing {
@@ -44,7 +49,6 @@
 	right: 0;
 	color: gray;
 	font-size: smaller;
-	clear: both;
 }
 
 @keyframes sunset { /* Sweet fade animation that makes it look like I know what I'm doing */
