@@ -1,26 +1,27 @@
 
-div.left_panel {
-	float: left; 
-	height: 200px; 
+#hunt_display_options {
+	display: flex;
+	flex-wrap: nowrap;
+	height: 200px;
+}
+
+.left_panel { 
 	width: 10%;
 }
 
-div.center_panel {
-	float: left; 
-	height: 200px; 
+.center_panel { 
 	width: 75%;
 	border: 2px solid black;
 	border-radius: 10px;
 	padding-left: 5px;
 }
 
-div.right_panel {
-	float: right; 
-	height: 200px; 
+.right_panel {
 	width: 10%;
+	text-align: right;
 }
 
-div.mechanics_upgrades {
+.mechanics_upgrades {
 	width: 95%;
 	height: 100px;
 	border: 2px solid black;
@@ -31,13 +32,13 @@ div.mechanics_upgrades {
 	padding-top: 5px;
 }
 
-div.stats_upgrades_and_listing {
+.stats_upgrades_and_listing {
 	width: 100%;
 	height: 200px;
 	visibility: hidden;
 }
 
-a.pi {
+.pi {
 	position: absolute;
 	bottom: 0;
 	right: 0;
@@ -71,12 +72,12 @@ a.pi {
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
-span.end_night_text:last-child { /* Only gets the LAST end_night_text element! */
+.end_night_text:last-child { /* Only gets the LAST end_night_text element! */
 	animation-name: sunset;
     animation-duration: 2s;
 }
 
-span.shaky_text { 	
+.shaky_text { 	
 	animation-name: shake;
 	animation-duration: .4s;
 	animation-iteration-count: 2;
