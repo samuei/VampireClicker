@@ -1,13 +1,4 @@
-var vamp_load_vals = [
-	'blood', 
-	'energy', 
-	'energy_max', 
-	'experience', 
-	'night', 
-	'money', 
-	'energy_upgrade_cost'
-];
-// special vals: money_flag, energy_upgrade_flag, buffer
+import { vamp_load_vals, flavor_events, hunt_encounters, nests } from './constants.js';
 
 window.onload = function() {
 	// Listeners
@@ -83,135 +74,7 @@ var vamp_object = {
 	// Flags
 	money_flag : 0,
 	energy_upgrade_flag : false,
-
-	// Text storage
-	flavor_events : {
-		1 : 'A truck labeled "Demeter Shipping" nearly runs you over.',
-		2 : 'Somewhere, a car alarm blares.',
-		3 : 'You hear a woman scream in the distance.',
-		4 : 'You pass by a man crying at a bus stop.',
-		5 : 'You aren\'t sure if that\'s fog or evaporated sewage, and you don\'t want to know.',
-		6 : 'You could swear you heard a music box, but when you stop to listen, there is nothing.',
-		7 : 'A sinister fog rolls over the city.',
-		8 : 'It seems like there are more rats than usual, but how could you tell?',
-		9 : 'You feel as if you\'re being watched.',
-		10 : 'A bat flies overhead.',
-		11 : 'A wolf howls somewhere, sending a shiver down your spine'
-	},
-	
-	hunt_encounters : {
-		0 : {
-			0 : 'The prostitute\'s blood is sour, and it feels gummy in your veins.',
-			1 : 'You corner a homeless man and take your fill.',
-			2 : 'You find a junkie and drink from her during a stupor. You feel dizzy and a little confused.',
-			3 : 'You meet a goth woman who opens a vein for you willingly.',
-			4 : 'An old lady is walking her cat. Neither one offers up much resistance.',
-			5 : 'A teenager is closing up a drive-thru, and his dead eyes don\'t notice you. His blood is almost lifeless.',
-			6 : 'A drunk falls face-first into the bush you\'re prowling through. It must be fate.',
-			7 : 'You find a teenage boy slipping home from his girlfriend\'s bedroom. Call it a happy meal.',
-			8 : 'The amateur astronomer is too busy with her telescope to notice your approach.'
-		},
-		1 : {
-			0 : 'Willie-Joe didn\'t have much in the cab of his truck, but he had plenty of blood in his veins.',
-			1 : 'You come upon a man playing an accordian for street change. You take his blood, take his change, and break his accordian.',
-			2 : 'You are mugged by a man you affectionately come to know as "Dinner."',
-			3 : 'You find yourself on a college campus. The professor\'s blood is not as dry as his lectures.',
-			4 : 'A policewoman walks right next to the bush you are feeding in. You should be more careful.',
-			5 : 'The hipster\'s blood comes with a free venti soy no-foam half-caf vanilla latte with vegan caramel drizzle. Score!',
-			6 : 'You encounter a LARPer, separated from his group. His healing potions turn out to be jello shots. Huh.',
-			7 : 'A local community theater is doing a Carmilla stage show. You give the actress in the title role a realistic pallor.',
-			8 : 'You don\'t want to sound cliche, but if the street-corner fortune teller didn\'t see this coming, it was her own fault.'
-		}
-	},
-	
-	nests : {
-		0 : {
-			name : 'wherever you can find',
-			rent : 0, // Free!
-			rent_increment : 0, // Rent is only charged on first purchase
-			description : 'Whether in a dumpster or a long culvert, you simply crawl into a safe-looking spot near the dawn.'
-		},
-		1 : {
-			name : 'the Sewer',
-			rent : 0,
-			rent_increment : 0,
-			description : 'You have found a manhole cover under which the sewer is less pungent than usual. You rest there.'
-		},
-		2 : {
-			name : 'the Dried Stain Motel',
-			rent : 40, // 40 bucks
-			rent_increment : 1, // Per night
-			description : 'The sheets are already soaked with bodily fluids. What\'s a little more?'
-		},
-		3 : {
-			name : 'the Personal Rat Apartments',
-			rent : 900,
-			rent_increment : 30, // Per month
-			description : 'Don\'t let the name fool you. You share many rats with your neighbors.'
-		},
-		4 : {
-			name : 'the Medium Roach Flats',
-			rent : 1100,
-			rent_increment : 30,
-			description : 'You are unsure if the roaches are better than the rats; There are more of them, but they are smaller.'
-		},
-		5 : {
-			name : 'the Pest-Free Townhomes',
-			rent : 1500,
-			rent_increment : 30,
-			description : 'Landlords, it seems, do not consider themselves pests.'
-		},
-		6 : {
-			name : 'a rickety tool shed',
-			rent : 1300,
-			rent_increment : 0,
-			description : 'You wrap yourself in a tarp, in case sunlight seeps in through a missing wall slat.'
-		},
-		7 : {
-			name : 'a double-wide trailer',
-			rent : 13000,
-			rent_increment : 365, // Per year
-			description : 'You worry sometimes that a neighbor\'s meth lab explosion might leave you exposed to the sun.'
-		},
-		8 : {
-			name : 'a pre-fab house in a passable neighborhood',
-			rent : 145000,
-			rent_increment : 0,
-			description : 'Thankfully, the HOA does not seem to recognize a new bloodsucker on its turf.'
-		},
-		9: {
-			name : 'a McMansion',
-			rent : 850000,
-			rent_increment : 0,
-			description : 'Dormers. Dormers everywhere.'
-		},
-		10 : {
-			name : 'a Stately Manor',
-			rent : 1550000,
-			rent_increment : 0,
-			description : 'It has a tasteful, understated quality, manageable ivy coverage, and plenty of basement space for bodies.'
-		},
-		11 : {
-			name : 'a Palatial Villa',
-			rent : 3750000,
-			rent_increment : 0,
-			description : 'With gates, wading pools, a stable, and servant\'s quarters, you suspect this might have once been a plantation.'
-		},
-		12 : {
-			name : 'an Actual Castle',
-			rent : 10000000,
-			rent_increment : 0,
-			description : 'You\'ve made it!'
-		}/*,
-		 : {
-			name : '',
-			rent : ,
-			rent_increment : ,
-			description : ''
-		}*/
-	}
 };
-
 
 /*
  * Actions
@@ -227,9 +90,9 @@ function hunt() {
 	// Feeding message
 	var rand = Math.floor(Math.random() * 9),
 		rand2 = Math.floor(Math.random() * (vamp_object.money_flag + 1));
-	message(vamp_object.hunt_encounters[rand2][rand]);
-	if (rand2 == 1 && rand == 5) {
-		vamp_object.energy += 1;
+	message(hunt_encounters[rand2][rand].message);
+	if (hunt_encounters[rand2][rand].energy_add) {
+		vamp_object.energy += hunt_encounters[rand2][rand].energy_add;
 		message('<span class="shaky_text">You feel energized!</span> ');
 	}
 	
@@ -260,7 +123,7 @@ function hunt() {
 	}
 	
 	rand = Math.floor(Math.random() * 101);
-	if (vamp_object.flavor_events[rand]) message(vamp_object.flavor_events[rand]);
+	if (flavor_events[rand]) message(flavor_events[rand]);
 	
 	// Update HTML values
 	document.getElementById("blood").innerHTML = vamp_object.blood;
@@ -361,16 +224,16 @@ function save() {
 // Wipe save from localStorage
 function delete_save() {
 	vamp_load_vals.forEach(
-			function (val) {
-				localStorage.removeItem(val);
-			}
-		);
+		function (val) {
+			localStorage.removeItem(val);
+		}
+	);
 		
-		// Also delete special stuff:
-		localStorage.removeItem('money_flag');
-		localStorage.removeItem('energy_upgrade_flag');
-		localStorage.removeItem('buffer');
-		
-		message('Your local save has been wiped clean.');
+	// Also delete special stuff:
+	localStorage.removeItem('money_flag');
+	localStorage.removeItem('energy_upgrade_flag');
+	localStorage.removeItem('buffer');
+	
+	message('Your local save has been wiped clean.');
 };
 
