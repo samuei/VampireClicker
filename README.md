@@ -14,3 +14,11 @@ As they gain experience and money, they may progress to more complex goals and a
 The game is built using VanillaJS, so there are no external dependencies.
 
 Click the ReadMe's header to see the code in action!
+
+## Local Editing
+
+Some browsers don't like Javascript imports from "file://" and will complain about CORS even though the 
+origin is so similar that it's *in the same folder*. That's silly, but you can work around it by hosting 
+your code locally. If you have Python 3 installed, you can just run the command `python -m http.server` 
+in the command line from the repo's folder and it will set everything up. There are myriad other solutions 
+to this problem, so if you have one you like, do that.
