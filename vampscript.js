@@ -65,7 +65,7 @@ var vamp_object = {
 	experience : 0,
 	money : 0,
 	night : 1,
-	energy_upgrade_cost : 5,
+	energy_upgrade_cost : 3,
 	buffer : "You are a blood-sucking creature of the night. <br> " +
 		"<br>You require the blood of the living to animate your soulless corpse every sunset. " + 
 		"<br>Perhaps as you grow and learn about the night, you will become able to do more than simply feed and sleep. " + 
@@ -186,7 +186,7 @@ function energy_upgrade() {
 	vamp_object.blood-= vamp_object.energy_upgrade_cost;
 	vamp_object.energy_max += 1;
 	vamp_object.energy += 1;
-	vamp_object.energy_upgrade_cost = Math.floor(1.1 * vamp_object.energy_upgrade_cost) + 10; // Raise cost incrementally
+	vamp_object.energy_upgrade_cost = Math.floor(1.3 * vamp_object.energy_upgrade_cost) + 10; // Raise cost incrementally
 	document.getElementById('blood').innerHTML = vamp_object.blood;
 	document.getElementById('energy').innerHTML = vamp_object.energy;
 	document.getElementById('energy_max').innerHTML = vamp_object.energy_max;
