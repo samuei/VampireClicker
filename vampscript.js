@@ -46,6 +46,15 @@ window.onload = function() {
 				energy_upgrade_butt.addEventListener('click', function() {energy_upgrade()}, false);
 			}
 			
+			// Handle housing upgrades
+			if (vamp_object.nest < 0 && vamp_object.experience >= 25 && !document.getElementById('nest_unlock_butt')) {
+				var nest_unlock_butt = document.createElement('button');
+				nest_unlock_butt.id = 'nest_unlock_butt';
+				nest_unlock_butt.innerHTML = 'Seek Housing: 25 xp';
+				document.getElementById('mechanics_upgrades').appendChild(nest_unlock_butt);
+				nest_unlock_butt.addEventListener('click', function() {nest_unlock()}, false);
+			}
+			
 			message(localStorage.buffer);
 			message('Loaded from localStorage'); // Not the other way around, because then you'd never see this
 		}
@@ -70,6 +79,7 @@ var vamp_object = {
 		"<br>You require the blood of the living to animate your soulless corpse every sunset. " + 
 		"<br>Perhaps as you grow and learn about the night, you will become able to do more than simply feed and sleep. " + 
 		"<br>Perhaps. Or perhaps not. ",
+	nest: -1,
 	
 	// Flags
 	money_flag : 0,
@@ -123,6 +133,16 @@ function hunt() {
 		energy_upgrade_butt.addEventListener('click', function() {energy_upgrade()}, false);
 	}
 	
+	// Unlock housing, if applicable
+	if (vamp_object.nest < 0 && vamp_object.experience >= 25 && !document.getElementById('nest_unlock_butt')) {
+		var nest_unlock_butt = document.createElement('button');
+		nest_unlock_butt.id = 'nest_unlock_butt';
+		nest_unlock_butt.innerHTML = 'Seek Housing: 25 xp';
+		document.getElementById('mechanics_upgrades').appendChild(nest_unlock_butt);
+		nest_unlock_butt.addEventListener('click', function() {nest_unlock()}, false);
+	}
+	
+	// Flavor events
 	rand = Math.floor(Math.random() * 101);
 	if (flavor_events[rand]) message(flavor_events[rand]);
 	
@@ -193,6 +213,25 @@ function energy_upgrade() {
 	document.getElementById('energy_max').innerHTML = vamp_object.energy_max;
 	document.getElementById('energy_upgrade_butt').innerHTML = 'Infuse Muscles With Blood: ' + vamp_object.energy_upgrade_cost + ' blood';
 	message('You suffuse your muscles with the power of the Blood, and they swell with vigor. ');
+};
+
+// Unlock nests
+function nest_unlock() {
+	if (vamp_object.experience < 25) {
+		message('You have not learned quite enough, yet.');
+		return;
+	}
+	document.getElementById('nest_unlock_butt').style.display = 'none';
+	vamp_object.nest = 0;
+	vamp_object.experience -= 25;
+	document.getElementById('experience').innerHTML = vamp_object.experience;
+	
+	
+	// TODO: Enable stats_upgrades_and_listing div, put housing stuff in there.
+	
+	
+	message('You take stock of the places you have been hiding from the sun. ');
+	message('Perhaps you could find some place safer...and cleaner. ');
 };
 
 // Update buffer with new text

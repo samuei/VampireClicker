@@ -6,7 +6,8 @@ export const vamp_load_vals = [
 	'experience', 
 	'night', 
 	'money', 
-	'energy_upgrade_cost'
+	'energy_upgrade_cost',
+	'nest'
 ];
 
 export const flavor_events = [
