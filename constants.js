@@ -20,7 +20,8 @@ export const flavor_events = [
 	'It seems like there are more rats than usual, but how could you tell?',
 	'You feel as if you\'re being watched.',
 	'A bat flies overhead.',
-	'A wolf howls somewhere, sending a shiver down your spine'
+	'A wolf howls somewhere, sending a shiver down your spine',
+	'Nobody seems to notice that your breath is not visible in the cold.'
 ];
 
 export const hunt_encounters = [

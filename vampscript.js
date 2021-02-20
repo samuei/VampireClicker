@@ -113,6 +113,7 @@ function hunt() {
 		document.getElementById('mechanics_upgrades').style.display = 'block';
 	}
 	
+	// Unlock energy upgrades, if applicable
 	if (!vamp_object.energy_upgrade_flag && vamp_object.blood >= vamp_object.energy_upgrade_cost) {
 		vamp_object.energy_upgrade_flag = true;
 		var energy_upgrade_butt = document.createElement('button');
@@ -166,7 +167,7 @@ function end_night() {
 // Unlock money
 function loot_unlock() {
 	if (vamp_object.experience < 10) {
-		message('You have not learned quite enough, yet');
+		message('You have not learned quite enough, yet.');
 		return;
 	}
 	document.getElementById('loot_unlock_butt').style.display = 'none';
