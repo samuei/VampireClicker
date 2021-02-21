@@ -47,7 +47,7 @@ window.onload = function() {
 			}
 			
 			// Handle housing upgrades
-			if (vamp_object.nest < 0 && vamp_object.experience >= 25 && !document.getElementById('nest_unlock_butt')) {
+			if (vamp_object.nest < 0 && vamp_object.experience >= 25) {
 				var nest_unlock_butt = document.createElement('button');
 				nest_unlock_butt.id = 'nest_unlock_butt';
 				nest_unlock_butt.innerHTML = 'Seek Housing: 25 xp';
@@ -225,9 +225,9 @@ function nest_unlock() {
 	vamp_object.nest = 0;
 	vamp_object.experience -= 25;
 	document.getElementById('experience').innerHTML = vamp_object.experience;
+	document.getElementById('stats_upgrades_and_listing').style.display = 'block';
 	
-	
-	// TODO: Enable stats_upgrades_and_listing div, put housing stuff in there.
+	// TODO: put housing stuff in there.
 	
 	
 	message('You take stock of the places you have been hiding from the sun. ');
