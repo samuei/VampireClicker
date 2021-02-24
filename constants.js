@@ -89,7 +89,7 @@ export const hunt_encounters = [
 
 export const nests = [
 	{
-		name : 'wherever you can find',
+		name : 'any place you can find',
 		rent : 0, // Free!
 		rent_increment : 0, // Rent is only charged on first purchase
 		description : 'Whether in a dumpster or a long culvert, you simply crawl into a safe-looking spot near the dawn.'

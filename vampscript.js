@@ -226,6 +226,10 @@ function nest_unlock() {
 	vamp_object.experience -= 25;
 	document.getElementById('experience').innerHTML = vamp_object.experience;
 	document.getElementById('stats_upgrades_and_listing').style.display = 'block';
+	var housing_current_div = document.getElementById('housing_current');
+	housing_current_div.appendChild(document.createTextNode('You hide from the sun in '));
+	housing_current_div.appendChild(document.createTextNode(nests[vamp_object.nest].name));
+	
 	
 	// TODO: put housing stuff in there.
 	
